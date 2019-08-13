@@ -1,8 +1,14 @@
 import React from 'react';
+import {Container, Row, Col, Button, Jumbotron} from 'react-bootstrap';
+import Search from '../../components/Search';
+import BookItem from '../../components/BookItem';
 
 function Index() {
   return(
-    <h1>Hi</h1>
+    <div>
+      <Search />
+      <BookItem /> 
+    </div>
   )
 }
 
