@@ -7,62 +7,60 @@ import {
   Jumbotron,
   InputGroup
 } from "react-bootstrap";
-import Api from '../utils/Api';
+// import Api from '../utils/Api';
 
 class Search extends React.Component {
-  state = {
-    books: []
+  constructor(props) {
+    super(props);
   }
 
-  search = async (event, queryString) => {
+  submitHandler = async (event) => {
+    //dont submit
     event.preventDefault();
-    try {
-      let response = await Api.getBooks(`https://www.googleapis.com/books/v1/volumes?q=1984&key=AIzaSyC_VEZtJe3S1X4Hveh4LB385ZdLBTmnWf0`);
-      let bookArray = [];
+    let res = await this.props.state.search(this.state.query);
+  }
 
-      response.data.items.forEach(item => {
-        bookArray.push(item)
-      });
-      this.setState({
-        books: bookArray
-      }, () => console.log(this.state.books));
-    } catch(error) {
-      console.log('\nError : ', error);
-    }
+  inputChangeHandler = event => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
     return (
       <Container>
-      <Row>
-        <Col>
-          <section id="search-box" className="card card-body">
-            <header>
-              <h2>Search</h2>
-            </header>
-            <div id="searchForm">
-              <form>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    className="col-12"
-                  />
-                  <button
-                    className="btn btn-primary"
-                    type="submit"
-                    value="Submit"
-                    onClick={this.search}
-                  >
-                    Submit
+        <Row>
+          <Col>
+            <section id="search-box" className="card card-body">
+              <header>
+                <h2>Search</h2>
+              </header>
+              <div id="searchForm">
+                <form>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="form-control col-12"
+                      name="query"
+                      onChange={this.inputChangeHandler}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      type="submit"
+                      value="Submit"
+                      onClick={this.submitHandler}
+                    >
+                      Submit
                   </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </Col>
-      </Row>
-    </Container>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }
